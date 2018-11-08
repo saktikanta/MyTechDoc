@@ -1,4 +1,4 @@
-# Monitor directory, load file and extract fields using regular expression of vmstat output in SPlunk
+# Monitor directory, load file and extract fields using regular expression of vmstat output in Splunk
 ## Splunk CLI and update config steps
  * ### File load
 [Splunk](https://www.splunk.com/) add oneshot to load file one at a time:
