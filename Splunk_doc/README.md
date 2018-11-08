@@ -1,4 +1,4 @@
-# Monitor directory, load file and extract fields using regular expression of vmstat output in [Splunk](https://www.splunk.com/) on Windows Server
+# Monitor directory, load file and extract fields from vmstat output using regular expression in [Splunk](https://www.splunk.com/) on Windows Server
 ## Splunk CLI and update config steps
  * ### File load
  Using below command on you can load file one at a time:
