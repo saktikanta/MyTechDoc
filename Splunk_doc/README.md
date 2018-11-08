@@ -1,18 +1,19 @@
 # Monitor directory, load file and extract fields using regular expression of vmstat output in SPlunk
-Splunk CLI and update config steps
-1.	File load
-Splunk add oneshot to load file one at a time:
+## Splunk CLI and update config steps
+ * ### File load
+[Splunk](https://www.splunk.com/) add oneshot to load file one at a time:
 .\splunk.exe add oneshot "C:\Path\to\log\file.txt" -sourcetype vmstat_monitor
 
-2.	Directory monitoring
+* ###	Directory monitoring
 Then you can add monitor the directory using CLI:
-.\splunk.exe add monitor C:\Path\to\log\
+```.\splunk.exe add monitor C:\Path\to\log\```
 Or can be added below entries in $SPLUNK_HOME\etc\apps\search\local\inputs.conf config file setting to monitor the directory:
 [monitor://C:\Path\to\log\]
 disabled = false
 
-3.	Source Type configuration
+* ###	Source Type configuration
 For example, below vmstat output stored in a file called C:\Path\to\log\file.txt and you want to extract the filed using regular expression in the configuration file.
+```
 procs -----------memory---------- ---swap-- -----io---- --system-- -----cpu------ ---timestamp---
  r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st
  1  0 308096 4078676 2021572 52275020    0    0    72   335    1    1  4  3 92  1  0    2018-11-06 22:10:14 GMT
@@ -33,18 +34,18 @@ procs -----------memory---------- ---swap-- -----io---- --system-- -----cpu-----
  0  0 308096 4119928 2021580 52273900    0    0     0     0  580  556  0  0 100  0  0   2018-11-06 22:10:29 GMT
  0  0 308096 4121052 2021580 52273912    0    0     0    64  667  679  0  0 100  0  0   2018-11-06 22:10:30 GMT
  0  0 308096 4121076 2021580 52273916    0    0     0     0  722  992  0  0 99  0  0    2018-11-06 22:10:31 GMT
-
+```
 Go to $SPLUNK_HOME\etc\apps\search\local\ directory and update the below two .conf files. In props.conf file add below entries.
-
+```
 [vmstat_monitor]
 MAX_TIMESTAMP_LOOKAHEAD = 20
 NO_BINARY_CHECK = 1
 SHOULD_LINEMERGE = FALSE
 pulldown_type = 1
 REPORT-myname = vmstat_fields
-
-
+```
 And in transforms.conf file add below entries.
+```
 [vmstat_fields]
 REGEX = \s+(?<r>[^\s]*)\s+(?<b>[^\s]*)\s+(?<swpd>[^\s]*)\s+(?<free>[^\s]*)\s+(?<buff>[^\s]*)\s+(?<cache>[^\s]*)\s+(?<si>[^\s]*)\s+(?<so>[^\s]*)\s+(?<bi>[^\s]*)\s+(?<bo>[^\s]*)\s+(?<in>[^\s]*)\s+(?<cs>[^\s]*)\s+(?<us>[^\s]*)\s+(?<sy>[^\s]*)\s+(?<id>[^\s]*)\s+(?<wa>[^\s]*)\s+(?<st>[^\s]*)\s+(?<tm>.*)
-
+```
