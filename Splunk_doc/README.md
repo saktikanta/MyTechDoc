@@ -11,7 +11,7 @@ Then you can add monitor the directory using CLI:
 ```
 .\splunk.exe add monitor C:\Path\to\log\
 ```
-Or can be added below entries in $SPLUNK_HOME\etc\apps\search\local\[inputs.conf](http://docs.splunk.com/Documentation/Splunk/7.2.0/Admin/Inputsconf) config file setting to monitor the directory:
+Or can be added below entries in $SPLUNK_HOME\etc\apps\search\local\\[inputs.conf](http://docs.splunk.com/Documentation/Splunk/7.2.0/Admin/Inputsconf) config file setting to monitor the directory:
 ```
 [monitor://C:\Path\to\log\]
 disabled = false
