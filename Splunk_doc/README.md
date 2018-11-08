@@ -1,7 +1,7 @@
 # Monitor directory, load file and extract fields from vmstat output using regular expression in [Splunk](https://www.splunk.com/) on Windows Server
 ## Splunk CLI and update config steps
  * ### File load
- Using below command on you can load file one at a time:
+ Using below command you can load file one at a time:
 ```
 .\splunk.exe add oneshot "C:\Path\to\log\file.txt" -sourcetype vmstat_monitor
 ```
