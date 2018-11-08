@@ -1,17 +1,22 @@
-# Monitor directory, load file and extract fields using regular expression of vmstat output in Splunk
+# Monitor directory, load file and extract fields using regular expression of vmstat output in [Splunk](https://www.splunk.com/)
 ## Splunk CLI and update config steps
  * ### File load
-[Splunk](https://www.splunk.com/) add oneshot to load file one at a time:
+ Using below command on you can load file one at a time:
+```
 .\splunk.exe add oneshot "C:\Path\to\log\file.txt" -sourcetype vmstat_monitor
+```
 
-* ###	Directory monitoring
+ * ###	Directory monitoring
 Then you can add monitor the directory using CLI:
-```.\splunk.exe add monitor C:\Path\to\log\```
+```
+.\splunk.exe add monitor C:\Path\to\log\
+```
 Or can be added below entries in $SPLUNK_HOME\etc\apps\search\local\inputs.conf config file setting to monitor the directory:
+```
 [monitor://C:\Path\to\log\]
 disabled = false
-
-* ###	Source Type configuration
+```
+ * ###	Source Type configuration
 For example, below vmstat output stored in a file called C:\Path\to\log\file.txt and you want to extract the filed using regular expression in the configuration file.
 ```
 procs -----------memory---------- ---swap-- -----io---- --system-- -----cpu------ ---timestamp---
