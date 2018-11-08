@@ -11,7 +11,7 @@ Then you can add monitor the directory using CLI:
 ```
 .\splunk.exe add monitor C:\Path\to\log\
 ```
-Or can be added below entries in $SPLUNK_HOME\etc\apps\search\local\inputs.conf config file setting to monitor the directory:
+Or can be added below entries in $SPLUNK_HOME\etc\apps\search\local\[inputs.conf](http://docs.splunk.com/Documentation/Splunk/7.2.0/Admin/Inputsconf) config file setting to monitor the directory:
 ```
 [monitor://C:\Path\to\log\]
 disabled = false
@@ -40,7 +40,7 @@ procs -----------memory---------- ---swap-- -----io---- --system-- -----cpu-----
  0  0 308096 4121052 2021580 52273912    0    0     0    64  667  679  0  0 100  0  0   2018-11-06 22:10:30 GMT
  0  0 308096 4121076 2021580 52273916    0    0     0     0  722  992  0  0 99  0  0    2018-11-06 22:10:31 GMT
 ```
-Go to $SPLUNK_HOME\etc\apps\search\local\ directory and update the below two .conf files. In props.conf file add below entries.
+Go to $SPLUNK_HOME\etc\apps\search\local\ directory and update the below two .conf files. In [props.conf](http://docs.splunk.com/Documentation/Splunk/7.2.0/Admin/Propsconf) file add below entries.
 ```
 [vmstat_monitor]
 MAX_TIMESTAMP_LOOKAHEAD = 20
@@ -49,7 +49,7 @@ SHOULD_LINEMERGE = FALSE
 pulldown_type = 1
 REPORT-myname = vmstat_fields
 ```
-And in transforms.conf file add below entries.
+And in [transforms.conf](http://docs.splunk.com/Documentation/Splunk/7.2.0/Admin/Transformsconf) file add below entries.
 ```
 [vmstat_fields]
 REGEX = \s+(?<r>[^\s]*)\s+(?<b>[^\s]*)\s+(?<swpd>[^\s]*)\s+(?<free>[^\s]*)\s+(?<buff>[^\s]*)\s+(?<cache>[^\s]*)\s+(?<si>[^\s]*)\s+(?<so>[^\s]*)\s+(?<bi>[^\s]*)\s+(?<bo>[^\s]*)\s+(?<in>[^\s]*)\s+(?<cs>[^\s]*)\s+(?<us>[^\s]*)\s+(?<sy>[^\s]*)\s+(?<id>[^\s]*)\s+(?<wa>[^\s]*)\s+(?<st>[^\s]*)\s+(?<tm>.*)
