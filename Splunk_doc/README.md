@@ -208,8 +208,7 @@ http://localhost:8001/static/app/search/images/my_image.png
 </img>
 </html>
 ```
-Options
-There are no child options for the <html> element.
+*Note:There are no child options for the <html> element.*
 
 ### Example
 ```
