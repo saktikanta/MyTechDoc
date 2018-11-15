@@ -168,3 +168,69 @@ Once the change done use the below command in splunk search window to get the .c
 ```
 | extract reload=T
 ```
+# Use an HTML file in a dashboard panel
+## Steps
+### 1. Put the HTML file in the following directory.
+```
+$SPLUNK_HOME/etc/apps/<appname>/appserver/static
+```
+### 2. In the <html> panel, use this syntax to indicate a file from the current app context.
+```
+<html src="<file_name>.html">
+</html>
+```
+If you are specifying an HTML file from another app context, use this syntax.
+```
+<html src="<other_app_name>:<file_name>.html">
+</html>
+```
+# Use an image file in a dashboard panel
+## Steps
+
+### 1. Put the image file in the following directory.
+```
+$SPLUNK_HOME/etc/apps/<appname>/appserver/static/images
+```
+If an /images directory does not already exist, create one and put the file in it.
+
+### 2. Verify that the image file path is accessible by testing the following URL.
+```
+http://<host>:<port>/static/app/<app_name>/images/<image>
+```
+For example, use this URL to verify that the my_image.png file is accessible.
+```
+http://localhost:8001/static/app/search/images/my_image.png
+```
+### 3. In the <html> panel, use this syntax to indicate a file from the current app context.
+```
+ <html>
+<img src="/static/app/search/images/my_image.png">
+</img>
+</html>
+```
+Options
+There are no child options for the <html> element.
+
+### Example
+```
+<dashboard>
+  <label>test_db</label>
+  <row>
+    <panel>
+      <html>
+<!-- Use an image from the current app's /static/images directory -->
+        <img src="/static/app/search/images/my_image.png"></img>
+      </html>
+    </panel>
+    <panel>
+<!-- Use an HTML file from the webhook app. -->
+      <html src="alert_webhook:my_html_file.html">
+      </html>
+<!--Use an image from the webhook app static/images directory -->
+      <html>
+        <img src="/static/app/alert_webhook/images/my_other_image.png"></img>
+      </html>
+    </panel>
+  </row>
+</dashboard>
+```
