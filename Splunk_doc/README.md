@@ -2,23 +2,23 @@
 ## Splunk CLI and update config steps
  * ### File load
  Using below command you can load file one at a time:
-```
+```powershell
 .\splunk.exe add oneshot "C:\Path\to\log\file.txt" -sourcetype vmstat_monitor
 ```
 
  * ###	Directory monitoring
 Then you can add monitor the directory using CLI:
-```
+```powershell
 .\splunk.exe add monitor C:\Path\to\log\
 ```
 Or can be added below entries in $SPLUNK_HOME\etc\apps\search\local\\[inputs.conf](http://docs.splunk.com/Documentation/Splunk/7.2.0/Admin/Inputsconf) config file setting to monitor the directory:
-```
+```powershell
 [monitor://C:\Path\to\log\]
 disabled = false
 ```
  * ###	Source Type configuration
 For example, below vmstat output stored in a file called C:\Path\to\log\file.txt and you want to extract the filed using regular expression in the configuration file.
-```
+```powershell
 procs -----------memory---------- ---swap-- -----io---- --system-- -----cpu------ ---timestamp---
  r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st
  1  0 308096 4078676 2021572 52275020    0    0    72   335    1    1  4  3 92  1  0    2018-11-06 22:10:14 GMT
@@ -41,7 +41,7 @@ procs -----------memory---------- ---swap-- -----io---- --system-- -----cpu-----
  0  0 308096 4121076 2021580 52273916    0    0     0     0  722  992  0  0 99  0  0    2018-11-06 22:10:31 GMT
 ```
 Go to $SPLUNK_HOME\etc\apps\search\local\ directory and update the below two .conf files. In [props.conf](http://docs.splunk.com/Documentation/Splunk/7.2.0/Admin/Propsconf) file add below entries.
-```
+```powershell
 [vmstat_monitor]
 MAX_TIMESTAMP_LOOKAHEAD = 20
 NO_BINARY_CHECK = 1
@@ -50,14 +50,14 @@ pulldown_type = 1
 REPORT-myname = vmstat_fields
 ```
 And in [transforms.conf](http://docs.splunk.com/Documentation/Splunk/7.2.0/Admin/Transformsconf) file add below entries.
-```
+```powershell
 [vmstat_fields]
 REGEX = \s+(?<r>[^\s]*)\s+(?<b>[^\s]*)\s+(?<swpd>[^\s]*)\s+(?<free>[^\s]*)\s+(?<buff>[^\s]*)\s+(?<cache>[^\s]*)\s+(?<si>[^\s]*)\s+(?<so>[^\s]*)\s+(?<bi>[^\s]*)\s+(?<bo>[^\s]*)\s+(?<in>[^\s]*)\s+(?<cs>[^\s]*)\s+(?<us>[^\s]*)\s+(?<sy>[^\s]*)\s+(?<id>[^\s]*)\s+(?<wa>[^\s]*)\s+(?<st>[^\s]*)\s+(?<tm>.*)
 ```
 # Global conifguration change to monitor directory, load file and extract fields from comma delimited dstat output file in [Splunk](https://www.splunk.com/) on Windows Server
 ## Before loading a file first create the source type in [inputs.conf](http://docs.splunk.com/Documentation/Splunk/7.2.0/Admin/Inputsconf).
 In $SPLUNK_HOME\etc\system\local\ directory, here we choose system instead app directory because this change will reflect to all the users.
-```
+```powershell
 [default]
 sourcetype = dstat_type
 
@@ -65,17 +65,17 @@ sourcetype = dstat_type
 ## Splunk CLI and update config steps
  * ### File load
  Using below command you can load file one at a time:
-```
+```powershell
 .\splunk.exe add oneshot "C:\Path\to\log\file.txt" -sourcetype dstat_type
 ```
 
  * ###	Directory monitoring
 Then you can add monitor the directory using CLI:
-```
+```powershell
 .\splunk.exe add monitor C:\Path\to\log\ -sourcetype dstat_type
 ```
 Or can be added below entries in $SPLUNK_HOME\etc\system\local\\[inputs.conf](http://docs.splunk.com/Documentation/Splunk/7.2.0/Admin/Inputsconf) config file setting to monitor the directory:
-```
+```powershell
 [monitor://C:\path\to\dstat_monitor]
 sourcetype = dstat_type
 disabled = false
@@ -87,7 +87,7 @@ Suppose you have dstat_server1.txt, dstat_server2.txt, dstat_server3.txt and dst
 
 Here below the fore files contais the data:
 dstat_server1.txt
-```
+```powershell
 "system","total cpu usage",,,,,,"memory usage",,,,"net/total",,"/",,"/shm",,"/boot",,"/home",,"/tmp",,"/var",,"/usr",,"/opt",,"/data",,"/Webform",,"/EventRecon",
 "date/time","usr","sys","idl","wai","hiq","siq","used","buff","cach","free","recv","send","used","free","used","free","used","free","used","free","used","free","used","free","used","free","used","free","used","free","used","free","used","free"
 12-11 07:35:42,0.942,1.912,97.068,0.066,0.000,0.012,1129115648.0,867491840.0,5917843456.0,340217856.0,0.0,0.0,11922944000.0,43035541504.0,0.0,25769803776.0,163545088.0,364879872.0,1703673856.0,410075136.0,501809152.0,4782620672.0,1748340736.0,3536089088.0,4808355840.0,2061414400.0,2799792128.0,7769124864.0,289646379008.0,189126688768.0,224772096.0,17684209664.0,4829757440.0,523849138176.0,
@@ -100,7 +100,7 @@ dstat_server1.txt
 12-11 07:35:49,1.500,0.500,98.0,0.0,0.0,0.0,1129099264.0,867495936.0,5917855744.0,340217856.0,3858.0,788.0,11922944000.0,43035541504.0,0.0,25769803776.0,163545088.0,364879872.0,1703673856.0,410075136.0,501809152.0,4782620672.0,1748340736.0,3536089088.0,4808355840.0,2061414400.0,2799804416.0,7769112576.0,289646379008.0,189126688768.0,224772096.0,17684209664.0,4829757440.0,523849138176.0,
 ```
 dstat_server2.txt
-```
+```powershell
 "system","total cpu usage",,,,,,"memory usage",,,,"net/total",
 "date/time","usr","sys","idl","wai","hiq","siq","used","buff","cach","free","recv","send"
 12-11 07:35:41,3.812,2.907,92.404,0.857,0.000,0.020,7972237312.0,2226438144.0,54714978304.0,2524286976.0,0.0,0.0
@@ -113,7 +113,7 @@ dstat_server2.txt
 12-11 07:35:48,4.333,3.250,92.417,0.0,0.0,0.0,8089038848.0,2226450432.0,54715023360.0,2407428096.0,13033.0,15332.0
 ```
 dstat_server3.txt
-```
+```powershell
 "system","total cpu usage",,,,,,"memory usage",,,,"net/total",,"/",,"/shm",,"/boot",,"/home",,"/opt",,"/tmp",,"/usr",,"/var",,"/data",
 "date/time","usr","sys","idl","wai","hiq","siq","used","buff","cach","free","recv","send","used","free","used","free","used","free","used","free","used","free","used","free","used","free","used","free","used","free"
 12-11 07:35:42,0.651,0.529,98.730,0.090,0.000,0.001,3373518848.0,1297600512.0,55549407232.0,7214108672.0,0.0,0.0,18753716224.0,36070551552.0,12288.0,25769791488.0,172601344.0,339046400.0,760840192.0,262463488.0,4311683072.0,6123016192.0,575610880.0,3517702144.0,7178436608.0,1142464512.0,1897689088.0,3319631872.0,355457990656.0,71384637440.0,
@@ -127,7 +127,7 @@ dstat_server3.txt
 ```
 
 dstat_server4.txt
-```
+```powershell
 "system","total cpu usage",,,,,,"memory usage",,,,"net/total",,"/",,"/shm",,"/boot",,"/home",,"/tmp",,"/opt",,"/var",,"/usr",,"/data",
 "date/time","usr","sys","idl","wai","hiq","siq","used","buff","cach","free","recv","send","used","free","used","free","used","free","used","free","used","free","used","free","used","free","used","free","used","free"
 12-11 07:35:43,0.302,0.291,99.391,0.014,0.000,0.002,4064350208.0,1310138368.0,2025979904.0,60156264448.0,0.0,0.0,16732798976.0,38225686528.0,0.0,25769803776.0,162975744.0,365449216.0,250773504.0,1862975488.0,498425856.0,4786003968.0,3197435904.0,7371481088.0,1448583168.0,3835846656.0,4048474112.0,707506176.0,56325390336.0,315489677312.0,
@@ -140,14 +140,14 @@ dstat_server4.txt
 12-11 07:35:50,0.250,0.250,99.500,0.0,0.0,0.0,4064514048.0,1310146560.0,2025959424.0,60156112896.0,1354.0,170.0,16732798976.0,38225686528.0,0.0,25769803776.0,162975744.0,365449216.0,250773504.0,1862975488.0,498425856.0,4786003968.0,3197411328.0,7371505664.0,1448583168.0,3835846656.0,4048474112.0,707506176.0,56325390336.0,315489677312.0,
 ```
 Then add the below entries in the props.conf file.
-```
+```powershell
 [dstat_type]
 SHOULD_LINEMERGE = False
 pulldown_type = 1
 REPORT-getfields = dstat_server1, dstat_server2, dstat_server3, dstat_server4
 ```
 And add the transfor rules to transforms.conf to extract fields.
-```
+```powershell
 [dstat_server1]
 DELIMS=","
 FIELDS = "system_date_time","usr","sys","idl","wai","hiq","siq","mem_used","mem_buff","mem_cach","mem_free","net_recv","net_send","root_used","root_free","shm_used","shm_free","boot_used","boot_free","home_used","home_free","tmp_used","tmp_free","var_used","var_free","usr_used","usr_free","opt_used","opt_free","data_used","data_free","Webform_used","Webform_free","EventRecon_used","EventRecon_free",
@@ -165,22 +165,22 @@ DELIMS=","
 FIELDS = "system_date_time","usr","sys","idl","wai","hiq","siq","mem_used","mem_buff","mem_cach","mem_free","net_recv","net_send","root_used","root_free","shm_used","shm_free","boot_used","boot_free","home_used","home_free","tmp_used","tmp_free","opt_used","opt_free","var_used","var_free","usr_used","usr_free","data_used","data_free",
 ```
 Once the change done use the below command in splunk search window to get the .conf change reflect.
-```
+```powershell
 | extract reload=T
 ```
 # Use an HTML file in a dashboard panel
 ## Steps
 ### 1. Put the HTML file in the following directory.
-```
+```powershell
 $SPLUNK_HOME/etc/apps/<appname>/appserver/static
 ```
 ### 2. In the <html> panel, use this syntax to indicate a file from the current app context.
-```
+```html
 <html src="<file_name>.html">
 </html>
 ```
 If you are specifying an HTML file from another app context, use this syntax.
-```
+```html
 <html src="<other_app_name>:<file_name>.html">
 </html>
 ```
@@ -188,21 +188,21 @@ If you are specifying an HTML file from another app context, use this syntax.
 ## Steps
 
 ### 1. Put the image file in the following directory.
-```
+```html
 $SPLUNK_HOME/etc/apps/<appname>/appserver/static/images
 ```
 If an /images directory does not already exist, create one and put the file in it.
 
 ### 2. Verify that the image file path is accessible by testing the following URL.
-```
+```html
 http://<host>:<port>/static/app/<app_name>/images/<image>
 ```
 For example, use this URL to verify that the my_image.png file is accessible.
-```
+```html
 http://localhost:8001/static/app/search/images/my_image.png
 ```
 ### 3. In the <html> panel, use this syntax to indicate a file from the current app context.
-```
+```html
  <html>
 <img src="/static/app/search/images/my_image.png">
 </img>
@@ -211,7 +211,7 @@ http://localhost:8001/static/app/search/images/my_image.png
 *Note:There are no child options for the <html> element.*
 
 ### Example
-```
+```html
 <dashboard>
   <label>test_db</label>
   <row>
